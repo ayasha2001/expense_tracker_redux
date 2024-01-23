@@ -1,0 +1,61 @@
+.main-prof-div {
+  justify-content: center;
+  /* width: 400px; */
+  margin: auto;
+  border: 1px solid rgb(197, 193, 193);
+  border-radius: 2px;
+  padding: 20px;
+  align-items: center;
+  padding-left: 200px;
+
+}
+
+.cancel{
+    height: 35px;
+    margin-right: 400px;
+    border: 1px solid red;
+    border-radius: 3px;
+    color: red;
+}
+
+.hb-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+img {
+  height: 30px;
+  width: 30px;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+.web-ic {
+  height: 20px;
+  width: 20px;
+  margin-top: 4px;
+}
+
+.label-input {
+  display: flex;
+  height: 60px;
+  /* width: 300px; */
+  align-items: center;
+}
+
+.label-input label {
+  margin-right: 10px;
+}
+
+.label-input input {
+    width: 500px;
+  }
+.profile-form button{
+    margin-right: 350px;
+    background-color: rgb(139, 92, 92);
+    color: white;
+    padding: 5px;
+    border: 0;
+    border-radius: 2px;
+}

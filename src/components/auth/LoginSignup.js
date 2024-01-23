@@ -75,7 +75,7 @@ const LoginSignup = () => {
     }
     const json = await response.json();
     console.log("Login successful:", json.idToken);
-    localStorage.setItem(email, json.idToken);
+    localStorage.setItem("token", json.idToken);
     nav("/home")
     setEmail("");
     setPassword("");

@@ -1,10 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import AuthPage from './pages/AuthPage';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import AuthPage from "./pages/AuthPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from './pages/HomePage';
+import HomePage from "./pages/HomePage";
+import CompleteProfile from "./components/profile/CompleteProfile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <HomePage />,
+      },
+      {
+        path: "/profile",
+        element: <CompleteProfile />,
       },
     ],
   },
