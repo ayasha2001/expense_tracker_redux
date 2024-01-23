@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./LoginSignup.css";
+import { useNavigate } from "react-router-dom";
 
 const LoginSignup = () => {
   const [isSignup, setIsSignup] = useState(true);
@@ -8,18 +9,11 @@ const LoginSignup = () => {
   const [cnfPasword, setCnfPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const nav = useNavigate();
+
   let headingText = "SignUp";
   let subBtnText = "Sign up";
   let btnText = "Have an account? Login";
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    if (password !== cnfPasword) {
-      setErrorMessage("password doesn't match");
-      return;
-    }
-    handleSignUp();
-  };
 
   const handleSignUp = async () => {
     try {
@@ -58,6 +52,49 @@ const LoginSignup = () => {
     }
   };
 
+  const handleLogin = async () => {
+    const response = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDqZwDjnF43ZY2c_T6j07yTFfJsQ1_09Rc",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Login failed:", errorData.error.message);
+      setErrorMessage(errorData.error.message);
+      return;
+    }
+    const json = await response.json();
+    console.log("Login successful:", json.idToken);
+    localStorage.setItem(email, json.idToken);
+    nav("/home")
+    setEmail("");
+    setPassword("");
+    setErrorMessage("");
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    if (isSignup && password !== cnfPasword) {
+      setErrorMessage("password doesn't match");
+      return;
+    }
+    if (isSignup) {
+      handleSignUp();
+    } else {
+      handleLogin();
+    }
+  };
+
   const handleAuthSubmit = () => {
     setIsSignup((prev) => {
       return !prev;
@@ -92,6 +129,7 @@ const LoginSignup = () => {
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
+            className={!isSignup ? "login-input" : ""}
             required
           ></input>
           <input
@@ -99,15 +137,19 @@ const LoginSignup = () => {
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
+            className={!isSignup ? "login-input" : ""}
             required
           ></input>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={cnfPasword}
-            onChange={handleCnfPasswordChange}
-            required
-          ></input>
+          {isSignup && (
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={cnfPasword}
+              onChange={handleCnfPasswordChange}
+              required
+            ></input>
+          )}
+
           {errorMessage.length > 0 && (
             <p className="error-message">{errorMessage}</p>
           )}
