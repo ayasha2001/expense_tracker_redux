@@ -1,24 +1,70 @@
-import React from "react";
-import {useNavigate} from "react-router-dom";
+import React,{useEffect,useState} from "react";
+import { useNavigate } from "react-router-dom";
+import "./HomePage.css";
 
 const HomePage = () => {
+  const nav = useNavigate();
+  const [token, setToken] = useState("");
+  const [errorMsg,setErrorMsg] = useState("")
 
-  const nav = useNavigate()
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    // console.log(storedToken);
+    setToken(storedToken || "");
+  }, []);
 
-  const handleClick = () => {
-    nav("/profile")
-  }
+  const handleNavigation = () => {
+    nav("/profile");
+  };
+
+  const handleEmailVerification = async () => {
+    try {
+      if (!token) {
+        return;
+      }
+      const response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDqZwDjnF43ZY2c_T6j07yTFfJsQ1_09Rc",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            requestType:"VERIFY_EMAIL",
+            idToken: token,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error(
+          "Email verication failed:",
+          errorData.error.message
+        );
+        return;
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Email verication failed:", error.message);
+    }
+  };
 
   return (
-    <div>
-      <h1>Welcome to Expense Tracker</h1>
-      <button
-        style={{ backgroundColor: "rgb(139, 92, 92)", color: "white" }}
-        onClick={handleClick}
-      >
-        your profile is incomplete. Complete now
+    <>
+      <div className="home-container-div">
+        <h1>Welcome to Expense Tracker</h1>
+        <button onClick={handleNavigation} className="btn-home-page">
+          your profile is incomplete. Complete now
+        </button>
+      </div>
+      <button onClick={handleEmailVerification} className="btn-home-page">
+        Verify Email
       </button>
-    </div>
+      <p className="error-msg">{errorMsg}</p>
+    </>
   );
 };
 

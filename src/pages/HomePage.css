@@ -1,0 +1,19 @@
+.home-container-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-home-page{
+    background-color: rgb(139, 92, 92);
+    color: white;
+    border: 0;
+    padding: 4px;
+    border-radius: 2px;
+}
+
+.error-msg{
+    color: red;
+    font-family: sans-serif;
+    font-size: 12px;
+}
