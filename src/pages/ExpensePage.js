@@ -4,10 +4,41 @@ import ExpenseList from "../components/expense/ExpenseList";
 
 const ExpensePage = () => {
   const [arr, setArr] = useState([]);
+  const [item, setItem] = useState({});
 
   useEffect(() => {
     fetchAllExpense();
   }, []);
+
+  const onEdit = (item) => {
+    setItem(item);
+  };
+
+  const onItemEdit = async (item) => {
+    try {
+      const data = await fetch(
+        `https://react-ecom-bootstrap-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${item.id}.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            type: item.type,
+            amount: item.amount,
+            date: item.date,
+            description: item.description,
+          }),
+        }
+      );
+      if (!data.ok) {
+        console.error("Item addition failed:", data.status);
+        return;
+      }
+      const json = await data.json();
+      console.log("Item successfully edited", json);
+      fetchAllExpense();
+    } catch (error) {
+      console.error("Item addition failed:", error);
+    }
+  };
 
   const onItemAdd = async (item) => {
     try {
@@ -36,6 +67,7 @@ const ExpensePage = () => {
   };
 
   const fetchAllExpense = async () => {
+    let a = [];
     try {
       const response = await fetch(
         "https://react-ecom-bootstrap-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
@@ -47,9 +79,11 @@ const ExpensePage = () => {
       }
 
       const json = await response.json();
-      console.log(json);
-      const expenseArray = Object.values(json);
-      setArr(expenseArray);
+      // console.log(json);
+      for (const key in json) {
+        a.push({ ...json[key], id: key });
+      }
+      setArr(a);
     } catch (error) {
       console.log("Adding expense failed:", error);
     }
@@ -57,8 +91,12 @@ const ExpensePage = () => {
 
   return (
     <div>
-      <ExpenseForm onItemAdd={onItemAdd} />
-      <ExpenseList arr={arr} />
+      <ExpenseForm onItemAdd={onItemAdd} item={item} onItemEdit={onItemEdit} />
+      <ExpenseList
+        arr={arr}
+        fetchAllExpense={fetchAllExpense}
+        onEdit={onEdit}
+      />
     </div>
   );
 };

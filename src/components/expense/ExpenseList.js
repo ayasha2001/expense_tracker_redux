@@ -2,8 +2,7 @@ import React from "react";
 import "./ExpenseForm.css";
 import ExpenseListItem from "./ExpenseListItem";
 
-const ExpenseList = ({ arr }) => {
-  console.log(arr);
+const ExpenseList = ({ arr, fetchAllExpense,onEdit }) => {
   return (
     <div>
       <section className="content">
@@ -14,11 +13,19 @@ const ExpenseList = ({ arr }) => {
               <th>Amount</th>
               <th>Date</th>
               <th>Description</th>
+              <th>options</th>
             </tr>
           </thead>
           <tbody id="expenseTable">
-            {arr?.map((item, i) => {
-              return <ExpenseListItem item={item} key={i} />;
+            {arr?.map((item) => {
+              return (
+                <ExpenseListItem
+                  item={item}
+                  key={item.id}
+                  fetchAllExpense={fetchAllExpense}
+                  onEdit={onEdit}
+                />
+              );
             })}
           </tbody>
         </table>

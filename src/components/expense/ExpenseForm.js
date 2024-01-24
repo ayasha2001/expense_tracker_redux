@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ExpenseForm.css";
 
-const ExpenseForm = ({ onItemAdd }) => {
+const ExpenseForm = ({ onItemAdd, item, onItemEdit }) => {
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (item) {
+      setType(item.type);
+      setAmount(item.amount);
+      setDate(item.date);
+      setDescription(item.description);
+    }
+  }, [item]);
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
@@ -20,8 +29,18 @@ const ExpenseForm = ({ onItemAdd }) => {
     setDescription(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    if (item) {
+      onItemEdit({
+        id: item.id,
+        type: type,
+        amount: amount,
+        date: date,
+        description: description,
+      });
+      return;
+    }
     const data = {
       type: type,
       amount: amount,
