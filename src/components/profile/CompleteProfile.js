@@ -7,13 +7,54 @@ import { useNavigate } from "react-router-dom";
 const CompleteProfile = () => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
+  const [token, setToken] = useState("");
   const nav = useNavigate();
-  let token = localStorage.getItem("token");
 
-//   useEffect(() => {
-//     let token = localStorage.getItem("token");
-//     console.log(token)
-//   }, []);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    // console.log(storedToken);
+    setToken(storedToken || "");
+  }, []);
+
+  useEffect(() => {
+    getAlreadyStoreDataIfExists();
+  }, [token]);
+
+  const getAlreadyStoreDataIfExists = async () => {
+    try {
+      if (!token) {
+        return;
+      }
+      const response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDqZwDjnF43ZY2c_T6j07yTFfJsQ1_09Rc",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            idToken: token,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error(
+          "Fetching user profile data failed:",
+          errorData.error.message
+        );
+        return;
+      }
+
+      const data = await response.json();
+      console.log(data?.users[0].photoUrl);
+      setName(data?.users[0]?.displayName);
+      setUrl(data?.users[0]?.photoUrl);
+    } catch (error) {
+      console.error("Fetching user profile data failed:", error.message);
+    }
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -25,8 +66,7 @@ const CompleteProfile = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-        console.log(token)
+    try { 
       const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDqZwDjnF43ZY2c_T6j07yTFfJsQ1_09Rc",
         {
@@ -50,7 +90,7 @@ const CompleteProfile = () => {
       }
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setName("");
       setUrl("");
     } catch (error) {
@@ -72,7 +112,7 @@ const CompleteProfile = () => {
       </div>
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="label-input">
-          <img src={githubIC} />
+          <img src={githubIC} alt="GitHub Icon" />
           <label>Full Name :</label>
           <input
             type="text"
@@ -82,7 +122,7 @@ const CompleteProfile = () => {
           />
         </div>
         <div className="label-input">
-          <img src={webIC} className="web-ic" />
+          <img src={webIC} alt="Web Icon" className="web-ic" />
           <label>Photo URL :</label>
           <input type="text" onChange={handleUrlChange} value={url} required />
         </div>
