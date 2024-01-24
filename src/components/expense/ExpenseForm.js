@@ -40,6 +40,7 @@ const ExpenseForm = ({ onItemAdd }) => {
             <div className="formLine-left">
               <span>Type:</span>
               <select id="type" onChange={handleTypeChange}>
+                <option value="not selected">Select type</option>
                 <option value="Food">Food</option>
                 <option value="Petrol">Petrol</option>
                 <option value="Grocery">Grocery</option>
