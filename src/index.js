@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CompleteProfile from "./components/profile/CompleteProfile";
 import ForgotPassWordPage from "./pages/ForgotPassWordPage";
+import ExpensePage from "./pages/ExpensePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/forget",
         element: <ForgotPassWordPage />,
+      },
+      {
+        path: "/expense",
+        element: <ExpensePage />,
       },
     ],
   },

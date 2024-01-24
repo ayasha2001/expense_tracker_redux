@@ -1,11 +1,12 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
+import ExpensePage from "./ExpensePage";
 
 const HomePage = () => {
   const nav = useNavigate();
   const [token, setToken] = useState("");
-  const [errorMsg,setErrorMsg] = useState("")
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -18,9 +19,9 @@ const HomePage = () => {
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem("token")
-    nav("/")
-  }
+    localStorage.removeItem("token");
+    nav("/");
+  };
 
   const handleEmailVerification = async () => {
     try {
@@ -32,7 +33,7 @@ const HomePage = () => {
         {
           method: "POST",
           body: JSON.stringify({
-            requestType:"VERIFY_EMAIL",
+            requestType: "VERIFY_EMAIL",
             idToken: token,
           }),
           headers: {
@@ -43,10 +44,7 @@ const HomePage = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error(
-          "Email verication failed:",
-          errorData.error.message
-        );
+        console.error("Email verication failed:", errorData.error.message);
         return;
       }
 
@@ -65,13 +63,14 @@ const HomePage = () => {
           your profile is incomplete. Complete now
         </button>
         <button onClick={handleLogOut} className="btn-home-page">
-        Logout
-      </button>
+          Logout
+        </button>
       </div>
       <button onClick={handleEmailVerification} className="btn-home-page">
         Verify Email
       </button>
       <p className="error-msg">{errorMsg}</p>
+      {/* <ExpensePage /> */}
     </>
   );
 };
