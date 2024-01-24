@@ -17,6 +17,11 @@ const HomePage = () => {
     nav("/profile");
   };
 
+  const handleLogOut = () => {
+    localStorage.removeItem("token")
+    nav("/")
+  }
+
   const handleEmailVerification = async () => {
     try {
       if (!token) {
@@ -59,6 +64,9 @@ const HomePage = () => {
         <button onClick={handleNavigation} className="btn-home-page">
           your profile is incomplete. Complete now
         </button>
+        <button onClick={handleLogOut} className="btn-home-page">
+        Logout
+      </button>
       </div>
       <button onClick={handleEmailVerification} className="btn-home-page">
         Verify Email
