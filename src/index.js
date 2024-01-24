@@ -6,6 +6,7 @@ import AuthPage from "./pages/AuthPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CompleteProfile from "./components/profile/CompleteProfile";
+import ForgotPassWordPage from "./pages/ForgotPassWordPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <CompleteProfile />,
+      },
+      {
+        path: "/forget",
+        element: <ForgotPassWordPage />,
       },
     ],
   },

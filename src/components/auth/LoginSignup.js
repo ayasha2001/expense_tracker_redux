@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./LoginSignup.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const LoginSignup = () => {
   const [isSignup, setIsSignup] = useState(true);
@@ -76,7 +76,7 @@ const LoginSignup = () => {
     const json = await response.json();
     console.log("Login successful:", json.idToken);
     localStorage.setItem("token", json.idToken);
-    nav("/home")
+    nav("/home");
     setEmail("");
     setPassword("");
     setErrorMessage("");
@@ -153,6 +153,13 @@ const LoginSignup = () => {
           {errorMessage.length > 0 && (
             <p className="error-message">{errorMessage}</p>
           )}
+
+          {!isSignup && (
+            <div>
+              <Link to="/forget"> forgot password? </Link>{" "}
+            </div>
+          )}
+
           <button type="submit">{subBtnText}</button>
         </form>
       </div>
