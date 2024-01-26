@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./LoginSignup.css";
 import { useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../store/authSlice";
 
 const LoginSignup = () => {
   const [isSignup, setIsSignup] = useState(true);
@@ -9,7 +11,9 @@ const LoginSignup = () => {
   const [cnfPasword, setCnfPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const nav = useNavigate();
+  const dispatch = useDispatch();
 
   let headingText = "SignUp";
   let subBtnText = "Sign up";
@@ -76,6 +80,7 @@ const LoginSignup = () => {
     const json = await response.json();
     console.log("Login successful:", json.idToken);
     localStorage.setItem("token", json.idToken);
+    dispatch(authActions.login());
     nav("/home");
     setEmail("");
     setPassword("");

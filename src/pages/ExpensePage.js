@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ExpenseForm from "../components/expense/ExpenseForm";
 import ExpenseList from "../components/expense/ExpenseList";
+import { useSelector, useDispatch } from "react-redux";
+import { expenseActions } from "../store/expenseSlice";
 
 const ExpensePage = () => {
-  const [arr, setArr] = useState([]);
+  // const [arr, setArr] = useState([]);
   const [item, setItem] = useState({});
+  const arr = useSelector((state) => state.expense.expenses);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchAllExpense();
@@ -83,7 +87,8 @@ const ExpensePage = () => {
       for (const key in json) {
         a.push({ ...json[key], id: key });
       }
-      setArr(a);
+      // setArr(a);
+      dispatch(expenseActions.saveAllExpense(a));
     } catch (error) {
       console.log("Adding expense failed:", error);
     }

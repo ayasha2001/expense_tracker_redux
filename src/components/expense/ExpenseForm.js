@@ -6,9 +6,10 @@ const ExpenseForm = ({ onItemAdd, item, onItemEdit }) => {
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+  console.log(item);
 
   useEffect(() => {
-    if (item) {
+    if (Object.keys(item).length !== 0) {
       setType(item.type);
       setAmount(item.amount);
       setDate(item.date);
@@ -31,7 +32,7 @@ const ExpenseForm = ({ onItemAdd, item, onItemEdit }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (item) {
+    if (Object.keys(item).length !== 0) {
       onItemEdit({
         id: item.id,
         type: type,

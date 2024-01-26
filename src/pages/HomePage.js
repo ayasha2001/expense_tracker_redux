@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./HomePage.css";
-import ExpensePage from "./ExpensePage";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "./../store/authSlice";
 
 const HomePage = () => {
   const nav = useNavigate();
   const [token, setToken] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -20,6 +23,7 @@ const HomePage = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
+    dispatch(authActions.logout());
     nav("/");
   };
 
