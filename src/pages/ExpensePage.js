@@ -3,11 +3,14 @@ import ExpenseForm from "../components/expense/ExpenseForm";
 import ExpenseList from "../components/expense/ExpenseList";
 import { useSelector, useDispatch } from "react-redux";
 import { expenseActions } from "../store/expenseSlice";
+import ExpenseMenu from "../components/expense/ExpenseMenu";
+import styles from "./ExpensePage.module.css";
 
 const ExpensePage = () => {
   // const [arr, setArr] = useState([]);
   const [item, setItem] = useState({});
   const arr = useSelector((state) => state.expense.expenses);
+  const isLight = useSelector((state) => state.theme.isLight);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -95,8 +98,9 @@ const ExpensePage = () => {
   };
 
   return (
-    <div>
+    <div className={isLight ? styles.light : styles.dark} style={{height:"100vh"}}>
       <ExpenseForm onItemAdd={onItemAdd} item={item} onItemEdit={onItemEdit} />
+      <ExpenseMenu />
       <ExpenseList
         arr={arr}
         fetchAllExpense={fetchAllExpense}
