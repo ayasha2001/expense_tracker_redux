@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import githubIC from "../../assets/github-ic.png";
-import webIC from "../../assets/web-ic.png";
 import "./CompleteProfile.css";
 import { useNavigate } from "react-router-dom";
 
@@ -99,20 +97,20 @@ const CompleteProfile = () => {
   };
 
   const handleCancel = () => {
-    nav("/home");
+    nav("/expense");
   };
 
   return (
     <div className="main-prof-div">
       <div className="hb-container">
         <h1>Contact Detail</h1>
-        <button className="cancel" onClick={handleCancel}>
-          cancel
+        <button className="cancel" style={{width:"auto", paddingLeft:"10px", paddingRight:"10px"} } onClick={handleCancel}>
+          X
         </button>
       </div>
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="label-input">
-          <img src={githubIC} alt="GitHub Icon" />
+          {/* <img src={githubIC} alt="GitHub Icon" /> */}
           <label>Full Name :</label>
           <input
             type="text"
@@ -122,11 +120,11 @@ const CompleteProfile = () => {
           />
         </div>
         <div className="label-input">
-          <img src={webIC} alt="Web Icon" className="web-ic" />
+          {/* <img src={webIC} alt="Web Icon" className="web-ic" /> */}
           <label>Photo URL :</label>
           <input type="text" onChange={handleUrlChange} value={url} required />
         </div>
-        <button type="submit">Update</button>
+        <button type="submit" onClick={handleSubmit}>Update</button>
       </form>
     </div>
   );

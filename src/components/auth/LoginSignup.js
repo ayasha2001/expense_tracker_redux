@@ -81,7 +81,7 @@ const LoginSignup = () => {
     console.log("Login successful:", json.idToken);
     localStorage.setItem("token", json.idToken);
     dispatch(authActions.login());
-    nav("/home");
+    nav("/expense");
     setEmail("");
     setPassword("");
     setErrorMessage("");

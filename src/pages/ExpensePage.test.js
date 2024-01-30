@@ -7,7 +7,7 @@ import store from "../store/store";
 
 describe("ExpensePage Component", () => {
   test("should fetch expenses on component mount", async () => {
-    // Mock the global fetch function
+
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: () =>
@@ -37,7 +37,7 @@ describe("ExpensePage Component", () => {
       expect(text).toBeInTheDocument();
     });
 
-    // Clean up mock
+    // Clean up mock ver imp
     global.fetch.mockRestore();
   });
 

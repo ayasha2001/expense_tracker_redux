@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import AuthPage from "./pages/AuthPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
 import CompleteProfile from "./components/profile/CompleteProfile";
 import ForgotPassWordPage from "./pages/ForgotPassWordPage";
 import ExpensePage from "./pages/ExpensePage";
@@ -19,10 +18,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <AuthPage />,
       },
-      {
-        path: "/home",
-        element: <HomePage />,
-      },
+      
       {
         path: "/profile",
         element: <CompleteProfile />,

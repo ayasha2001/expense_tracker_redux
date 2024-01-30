@@ -5,13 +5,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { expenseActions } from "../store/expenseSlice";
 import ExpenseMenu from "../components/expense/ExpenseMenu";
 import styles from "./ExpensePage.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ExpensePage = () => {
   // const [arr, setArr] = useState([]);
   const [item, setItem] = useState({});
   const arr = useSelector((state) => state.expense.expenses);
   const isLight = useSelector((state) => state.theme.isLight);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
+  const nav = useNavigate();
+
+  // if (!isAuthenticated) {
+  //   nav("/");
+  // }
 
   useEffect(() => {
     fetchAllExpense();
@@ -98,14 +105,23 @@ const ExpensePage = () => {
   };
 
   return (
-    <div className={isLight ? styles.light : styles.dark} style={{height:"100vh"}}>
-      <ExpenseForm onItemAdd={onItemAdd} item={item} onItemEdit={onItemEdit} />
-      <ExpenseMenu />
-      <ExpenseList
-        arr={arr}
-        fetchAllExpense={fetchAllExpense}
-        onEdit={onEdit}
-      />
+    <div
+      className={isLight ? styles.light : styles.dark}
+      style={{ height: "100vh" }}
+    >
+      <div>
+        <ExpenseForm
+          onItemAdd={onItemAdd}
+          item={item}
+          onItemEdit={onItemEdit}
+        />
+        <ExpenseMenu />
+        <ExpenseList
+          arr={arr}
+          fetchAllExpense={fetchAllExpense}
+          onEdit={onEdit}
+        />
+      </div>
     </div>
   );
 };

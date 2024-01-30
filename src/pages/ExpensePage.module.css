@@ -7,3 +7,19 @@
     color: black;
     background-color: black;
 }
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+  }
+  
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content vertically */
+  }
+  
+  .profileButton {
+    margin-top: auto; /* Move the button to the bottom */
+  }
